@@ -19,7 +19,7 @@ class MinStack {
     }
     
     func getMin() -> Int {
-        return arr.min()! 
+        return arr.min() ?? 0
     }
 }
 
