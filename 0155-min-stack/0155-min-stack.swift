@@ -11,7 +11,7 @@ class MinStack {
     }
     
     func pop() {
-        arr.popLast()!
+        arr.removeLast()
     }
     
     func top() -> Int {
