@@ -11,17 +11,17 @@
 [1,2,3,4,5]
 class Solution {
     func reverseList(_ head: ListNode?) -> ListNode? {
-        var previous:ListNode? 
-        var current = head
-        var next: ListNode?
-        
-        while(current != nil){
-            next = current?.next
-            current?.next = previous
-            previous = current
-            current = next
-        
-        }
-        return previous
+       return reverseListInternal(head, nil) 
     }
+    
+    func reverseListInternal(_ current: ListNode?, _ previous: ListNode?) ->                ListNode? {
+        
+    if current == nil { return previous }
+      
+    var next = current!.next      
+    current!.next = previous              
+      
+    return reverseListInternal(next, current)      
+  }
 }
+
