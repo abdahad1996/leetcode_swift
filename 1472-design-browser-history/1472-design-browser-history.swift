@@ -9,33 +9,75 @@
 
 // Forward: The forward method moves the current index forward by a specified number of steps. If the steps exceed the forward history, it moves forward as much as possible without exceeding the latest visited page.
 
-class BrowserHistory {
-    private var history: [String]
-    private var currentIndex: Int
+// class BrowserHistory {
+//     private var history: [String]
+//     private var currentIndex: Int
     
-    init(_ homepage: String) {
-        history = [homepage]
-        currentIndex = 0
-    }
+//     init(_ homepage: String) {
+//         history = [homepage]
+//         currentIndex = 0
+//     }
     
-    func visit(_ url: String) {
-        history = Array(history.prefix(currentIndex + 1))
-        history.append(url)
-        currentIndex += 1
-    }
+//     func visit(_ url: String) {
+//         history = Array(history.prefix(currentIndex + 1))
+//         history.append(url)
+//         currentIndex += 1
+//     }
     
-    func back(_ steps: Int) -> String {
-        currentIndex = max(0, currentIndex - steps)
-        return history[currentIndex]
-    }
+//     func back(_ steps: Int) -> String {
+//         currentIndex = max(0, currentIndex - steps)
+//         return history[currentIndex]
+//     }
     
-    func forward(_ steps: Int) -> String {
-        currentIndex = min(history.count - 1, currentIndex + steps)
-        return history[currentIndex]
+//     func forward(_ steps: Int) -> String {
+//         currentIndex = min(history.count - 1, currentIndex + steps)
+//         return history[currentIndex]
+//     }
+// }
+
+class Node {
+    var url:String?
+    var prev:Node?
+    var next:Node?
+    
+    init(_ url:String){
+        self.url = url
     }
 }
 
-
+class BrowserHistory {
+    var currentNode:Node?
+    init(_ homepage: String) {
+        currentNode = Node(homepage)
+       
+    }
+    
+    func visit(_ url: String) {
+        let newNode = Node(url)
+        currentNode?.next = newNode
+        newNode.prev = currentNode
+        currentNode = newNode
+        
+    }
+    
+    func back(_ steps: Int) -> String {
+        var steps = steps 
+        while steps > 0, currentNode?.prev != nil {
+            currentNode = currentNode?.prev
+            steps = steps - 1
+        }
+        return  currentNode?.url ?? ""
+    }
+    
+    func forward(_ steps: Int) -> String {
+        var steps = steps 
+        while steps > 0, currentNode?.next != nil {
+            currentNode = currentNode?.next
+            steps = steps - 1
+        }
+         return  currentNode?.url ?? ""
+    }
+}
 /**
  * Your BrowserHistory object will be instantiated and called as such:
  * let obj = BrowserHistory(homepage)
