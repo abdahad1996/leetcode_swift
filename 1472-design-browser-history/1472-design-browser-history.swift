@@ -52,6 +52,8 @@ class BrowserHistory {
        
     }
     
+//Add a new node with the URL next to the current node.
+//Remove all nodes that come after the new node since we can't go forward to those pages anymore.
     func visit(_ url: String) {
         let newNode = Node(url)
         currentNode?.next = newNode
@@ -60,6 +62,7 @@ class BrowserHistory {
         
     }
     
+    //Move the current pointer back by the given number of steps, but not beyond the start of the list.
     func back(_ steps: Int) -> String {
         var steps = steps 
         while steps > 0, currentNode?.prev != nil {
@@ -69,6 +72,7 @@ class BrowserHistory {
         return  currentNode?.url ?? ""
     }
     
+    //Move the current pointer forward by the given number of steps, but not beyond the end of the list.
     func forward(_ steps: Int) -> String {
         var steps = steps 
         while steps > 0, currentNode?.next != nil {
